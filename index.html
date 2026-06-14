@@ -61,6 +61,12 @@
   .qr-2{font-weight:700;font-size:15px;color:var(--rosso);margin-top:2px}
   .qr-3{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--crema-dim);margin-top:6px;letter-spacing:.04em}
 
+  .row{display:flex;gap:10px;margin-top:14px;z-index:6}
+  .mini{flex:1;cursor:pointer;background:rgba(244,236,222,.04);border:1px solid rgba(244,236,222,.16);color:var(--crema);font-family:'Inter',sans-serif;font-weight:600;font-size:12px;letter-spacing:.01em;padding:12px 6px;border-radius:13px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:.2s ease;text-align:center}
+  .mini:hover{border-color:rgba(244,236,222,.5);background:rgba(244,236,222,.07)}
+  .mini svg{width:18px;height:18px;stroke:var(--crema);fill:none;stroke-width:1.7}
+  .reg-btn{width:100%;margin-top:10px;cursor:pointer;background:var(--crema);border:none;color:var(--nero);font-family:'Inter',sans-serif;font-weight:700;font-size:14.5px;padding:15px;border-radius:14px;transition:transform .12s ease,opacity .2s ease;z-index:6}
+  .reg-btn:active{transform:scale(.99);opacity:.92}
   .foot{text-align:center;margin-top:22px;z-index:6;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(185,174,158,.5)}
 
   .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--crema);color:var(--nero);font-weight:600;font-size:14px;padding:13px 20px;border-radius:30px;box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.35s ease;z-index:30;max-width:90vw;text-align:center}
@@ -120,6 +126,13 @@
 
     <button class="cta" id="sos"><span class="dot"></span>Lanzar S.O.S Negroni</button>
 
+    <div class="row">
+      <button class="mini" id="remind"><svg viewBox="0 0 24 24"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>Recordatorio</button>
+      <button class="mini" id="bar"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Bar cerca</button>
+      <button class="mini" id="friend"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>Avisar</button>
+    </div>
+    <button class="reg-btn" id="reg">🍊 Acabo de tomar uno</button>
+
     <div class="qr">
       <div class="qr-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAc4AAAHOCAIAAACehH7nAAAI0klEQVR4nO3csY0rRxBFUVHYTATIUv6RyBIgRkCTASiE3wYvStU8x14MZ4bci7be4/16/gZA6ffpGwC4n9QC5KQWICe1ADmpBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQk1qAnNQC5KQWIPdTXPTPP/4qLnuZf/79+/Avz9/nlmsWtjz7+TUL/jdPFN+RUy1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSSZa9zsytHhWI5qXhL3/zmZ7fKtmyAffMvpOBUC5CTWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAueFlr3OzqzzfvHI0uyt23w7W+RNteXb/myecagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQk1qAnNQC5KQWILdm2eubFctJW/aQivssFrO++TvihFMtQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkLHtdZXaJaovZxSx7Xd/JqRYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJrlr3sIX3WN7/P81Wz4i0Vm2q2yv7/nGoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiA3vOxVrBxxoli32nLNWcWzF/xvfpZTLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQk1qAnNQC5B7v13P6HviF+9attmyAbVm32vK9fzOnWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyP0UF92yRPXNW1BbvqMtird0/h1t+dWdm32fxac71QLkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyEktQO7xfj2n74GP2bLXtWWJasuq2Zb3uYVlL4CVpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyEktQO5n+gZOzW4XnS/9FPd5375U8URbVs3OFU+05ZqF2YY41QLkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyEktQO7xfj0/ftH71q3u26y6b43pvje/xZZdsXPFb8mpFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBcj/TN3BqyybQfbtNhdk3P7tVNuu+xawtn+5UC5CTWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAucf79fz4RWc3gbYsEm3ZKis+ffZ9nrtvA8zy3Inie3eqBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQk1qAXLLstcXsytGWxazCfW/+vk8vbHmflr0AVpJagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQC5n9mPn93amd0Emn322W2tc1uefXYxa8uvbsu3WXCqBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQk1qA3PCyV6HYLvrmDbBzxRMVZu9z9pr3/erOzd6nUy1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuQe79fz4xfdsjNUbCzNrgfNLmbd574drC2/kPv+i51qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYglyx7zbpvA2zLUtqs+zarttjy+5z9zTvVAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1A7mf6Bk7dt9d1n/vWmGbXwrb8PmevuWXRzakWICe1ADmpBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyybLXlq2d+7agCls21WY3wLYsum35fZ6/zy0bYE61ADmpBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQe7xfz+l74BdmF4nu26zasgV1bvY7mt1UOzd7n061ADmpBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQ+ykuumUPaVaxHlRsVt33bX7zBtjsulXxlrYszznVAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ALln2Ordllefc7HbRfZtVs/tS3qdP/xSnWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyA0ve5375j2k2Wc/t2Xd6j5b3mexlLaFUy1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuTWLHt9s2Ixq9iCKnabtiy6bXn2+xazzs3uijnVAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1AzrLXVaxGnfjmXbFZW+6z4FQLkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQC5NcteW1ajvtn5btP5t7ll3ar4fRZPVHxHhS3f+zmnWoCc1ALkpBYgJ7UAOakFyEktQE5qAXJSC5CTWoCc1ALkpBYgJ7UAOakFyA0ve21Z5Zk1u5h17vw+tzzRFrM7WFv+i2d/IU61ADmpBchJLUBOagFyUguQk1qAnNQC5KQWICe1ADmpBchJLUBOagFyUguQe7xfz+l7ALicUy1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkJNagJzUAuSkFiAntQA5qQXISS1ATmoBclILkPsPF24k6J61kMQAAAAASUVORK5CYII=" alt="QR de descarga"></div>
       <div class="qr-txt">
@@ -160,6 +173,20 @@
     if(navigator.share){navigator.share({title:'S.O.S NEGRONI',text:msg}).catch(()=>{});}else{window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');}
     showToast('🚨 Bengala lanzada');
   });
+
+  $('friend').addEventListener('click',()=>{const msg='HEY, ¿te tomás un Negroni conmigo? 🍸 Tengo una sed!';window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');});
+  $('bar').addEventListener('click',()=>{
+    const w=window.open('https://www.google.com/maps/search/cocteler%C3%ADa+bar+cerca+de+m%C3%AD/','_blank');
+    showToast('📍 Buscando coctelerías cerca…');
+    if(navigator.geolocation&&w){navigator.geolocation.getCurrentPosition(p=>{try{w.location=`https://www.google.com/maps/search/bar+de+cocteler%C3%ADa/@${p.coords.latitude},${p.coords.longitude},15z`;}catch(e){}},()=>{},{timeout:6000,enableHighAccuracy:true});}
+  });
+  $('remind').addEventListener('click',()=>{
+    const d=new Date();d.setDate(d.getDate()+7);d.setHours(19,0,0,0);const end=new Date(d.getTime()+3600000);
+    const fmt=x=>x.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+    const url='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('🍸 Hora del Negroni')+'&dates='+fmt(d)+'/'+fmt(end)+'&details='+encodeURIComponent('La sed avisa. Es momento de un buen Negroni. — S.O.S Negroni · ABB Bartenders');
+    window.open(url,'_blank');showToast('🗓️ Recordatorio en 7 días, 19:00');
+  });
+  $('reg').addEventListener('click',()=>{state.last=Date.now();save(state);tick();showToast('🍊 ¡Salud! Negroni registrado');});
 
   (async()=>{const saved=await load();if(saved&&typeof saved.last!=='undefined')state=saved;tick();setInterval(tick,1000);})();
 </script>

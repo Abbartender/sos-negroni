@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.O.S Negroni — ABB Bartenders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --nero:#0A0807;
+    --rosso:#D9142B;
+    --rosso-deep:#8E0E1C;
+    --crema:#F4ECDE;
+    --crema-dim:#B9AE9E;
+    --oro:#C7A24C;
+    --accent:#D9142B;       /* cambia según el trago */
+    --accent-deep:#8E0E1C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(120% 80% at 50% 6%, #1b0c0c 0%, var(--nero) 55%), var(--nero);
+    color:var(--crema);
+    font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    display:flex;justify-content:center;min-height:100dvh;overflow-x:hidden;
+    transition:background .6s ease;
+  }
+  .phone{
+    width:100%;max-width:440px;min-height:100dvh;padding:20px 24px 28px;
+    display:flex;flex-direction:column;position:relative;isolation:isolate;
+  }
+  .phone::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(130% 90% at 50% 28%, transparent 55%, rgba(0,0,0,.55) 100%);z-index:5;
+  }
+  .topbar{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--crema-dim);z-index:6}
+  .brand{color:var(--crema);font-weight:600}
+  .brand b{color:var(--rosso);font-weight:700}
+  .age{border:1px solid rgba(244,236,222,.25);border-radius:30px;padding:4px 9px;font-weight:600}
+
+  /* selector de trago */
+  .picker{display:flex;gap:8px;overflow-x:auto;margin-top:18px;padding-bottom:4px;z-index:6;scrollbar-width:none}
+  .picker::-webkit-scrollbar{display:none}
+  .chip{
+    flex:0 0 auto;cursor:pointer;border:1px solid rgba(244,236,222,.18);background:rgba(244,236,222,.03);
+    color:var(--crema-dim);font-size:12.5px;font-weight:600;letter-spacing:.02em;
+    padding:8px 14px;border-radius:30px;white-space:nowrap;transition:.2s ease;
+  }
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 18px -6px var(--accent)}
+
+  .since{margin-top:20px;text-align:center;z-index:6}
+  .since .lbl{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--crema-dim)}
+  .clock{margin-top:7px;font-variant-numeric:tabular-nums;font-weight:700;font-size:clamp(21px,6.6vw,27px);letter-spacing:.03em;color:var(--crema)}
+  .clock .u{color:var(--accent);font-weight:600;font-size:.62em;margin:0 .12em 0 .04em;transition:color .4s ease}
+  .status{margin-top:7px;font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--oro)}
+
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:6;margin:2px 0;min-height:190px}
+  .glass{width:min(82%,320px);height:auto;display:block;filter:drop-shadow(0 24px 34px rgba(0,0,0,.6))}
+  .bloom{transform-origin:160px 150px;animation:beacon 4.6s ease-in-out infinite}
+  @keyframes beacon{0%,100%{opacity:.74;transform:scale(.98)}50%{opacity:1;transform:scale(1.04)}}
+
+  .copy{z-index:6;text-align:center}
+  .title{font-family:'Fraunces',serif;line-height:.84;margin-bottom:12px}
+  .title .sos{display:block;font-weight:900;font-size:clamp(18px,5.5vw,24px);letter-spacing:.18em;color:var(--accent);transition:color .4s ease}
+  .title .neg{display:block;font-weight:900;font-size:clamp(44px,14vw,64px);letter-spacing:-.01em;color:var(--crema);text-shadow:0 0 36px rgba(217,20,43,.3)}
+
+  .actions{margin-top:18px;z-index:6}
+  .sos-btn{
+    width:100%;border:none;cursor:pointer;
+    background:linear-gradient(180deg,var(--accent) 0%,var(--accent-deep) 100%);color:#fff;
+    font-family:'Inter',sans-serif;font-weight:700;font-size:16px;letter-spacing:.03em;
+    padding:17px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:10px;
+    position:relative;box-shadow:0 0 0 0 rgba(217,20,43,.5);animation:distress 2.2s ease-out infinite;transition:transform .12s ease;
+  }
+  .sos-btn:active{transform:scale(.98)}
+  .sos-btn .dot{width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 0 12px #fff}
+  @keyframes distress{0%{box-shadow:0 0 0 0 rgba(217,20,43,.5)}70%{box-shadow:0 0 0 18px rgba(217,20,43,0)}100%{box-shadow:0 0 0 0 rgba(217,20,43,0)}}
+
+  .row{display:flex;gap:10px;margin-top:10px}
+  .mini{
+    flex:1;cursor:pointer;background:rgba(244,236,222,.04);border:1px solid rgba(244,236,222,.18);color:var(--crema);
+    font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.01em;
+    padding:13px 8px;border-radius:13px;display:flex;flex-direction:column;align-items:center;gap:5px;
+    transition:border-color .2s ease,background .2s ease;text-align:center;
+  }
+  .mini:hover{border-color:rgba(244,236,222,.5);background:rgba(244,236,222,.07)}
+  .mini svg{width:19px;height:19px;stroke:var(--crema);fill:none;stroke-width:1.7}
+
+  .reg-btn{
+    width:100%;margin-top:10px;cursor:pointer;background:var(--crema);border:none;color:var(--nero);
+    font-family:'Inter',sans-serif;font-weight:700;font-size:14.5px;padding:15px;border-radius:14px;transition:transform .12s ease,opacity .2s ease;
+  }
+  .reg-btn:active{transform:scale(.99);opacity:.92}
+
+  .foot{text-align:center;margin-top:16px;z-index:6;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(185,174,158,.6)}
+
+  .toast{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    background:var(--crema);color:var(--nero);font-weight:600;font-size:14px;
+    padding:13px 20px;border-radius:30px;box-shadow:0 14px 40px rgba(0,0,0,.5);
+    opacity:0;pointer-events:none;transition:.35s ease;z-index:30;max-width:90vw;text-align:center;
+  }
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (prefers-reduced-motion: reduce){.bloom,.sos-btn{animation:none}}
+</style>
+</head>
+<body>
+  <main class="phone">
+    <div class="topbar">
+      <span class="brand">ABB <b>BARTENDERS</b></span>
+      <span class="age">+18</span>
+    </div>
+
+    <section class="since">
+      <div class="lbl">Tu último <span id="lblName">Negroni</span> fue hace</div>
+      <div class="clock" id="clock">—</div>
+      <div class="status" id="status"></div>
+    </section>
+
+    <div class="stage">
+      <svg class="glass" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg" aria-label="Trago">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="46%" r="58%">
+            <stop offset="0%" stop-color="#FF3247" stop-opacity="0.9" id="glow0"/>
+            <stop offset="38%" stop-color="#D9142B" stop-opacity="0.5" id="glow1"/>
+            <stop offset="100%" stop-color="#D9142B" stop-opacity="0" id="glow2"/>
+          </radialGradient>
+          <linearGradient id="liquid" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F2632B" id="liq0"/>
+            <stop offset="50%" stop-color="#D11A24" id="liq1"/>
+            <stop offset="100%" stop-color="#9E0E1C" id="liq2"/>
+          </linearGradient>
+          <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.24"/>
+            <stop offset="22%" stop-color="#ffffff" stop-opacity="0.05"/>
+            <stop offset="78%" stop-color="#ffffff" stop-opacity="0.05"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.24"/>
+          </linearGradient>
+          <linearGradient id="ice" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.62"/>
+            <stop offset="100%" stop-color="#ffe2cf" stop-opacity="0.16"/>
+          </linearGradient>
+          <radialGradient id="orange" cx="42%" cy="38%" r="62%">
+            <stop offset="0%" stop-color="#FFB341"/>
+            <stop offset="60%" stop-color="#F08A2A"/>
+            <stop offset="100%" stop-color="#D9631C"/>
+          </radialGradient>
+          <clipPath id="inner"><path d="M66,80 L84,232 A76,16 0 0 0 236,232 L254,80 Z"/></clipPath>
+          <clipPath id="innerFill"><rect id="fillRect" x="40" y="112" width="240" height="160"/></clipPath>
+        </defs>
+
+        <ellipse class="bloom" cx="160" cy="150" rx="150" ry="150" fill="url(#glow)"/>
+
+        <!-- liquido (nivel variable segun dias) -->
+        <g clip-path="url(#inner)">
+          <g clip-path="url(#innerFill)">
+            <rect x="60" y="40" width="200" height="220" fill="url(#liquid)"/>
+          </g>
+          <ellipse id="surface" cx="160" cy="112" rx="92" ry="15" fill="#F2632B" opacity="0.92"/>
+          <ellipse id="surface2" cx="160" cy="112" rx="92" ry="15" fill="none" stroke="#ffd9b8" stroke-opacity="0.35" stroke-width="1.4"/>
+        </g>
+
+        <!-- hielo -->
+        <g clip-path="url(#inner)">
+          <g transform="rotate(-10 160 175)">
+            <rect x="120" y="138" width="80" height="78" rx="13" fill="url(#ice)" stroke="#ffffff" stroke-opacity="0.5" stroke-width="1.4"/>
+            <path d="M127,147 L160,162 L160,206" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.2"/>
+            <path d="M160,162 L193,150" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.2"/>
+          </g>
+        </g>
+
+        <!-- garnish -->
+        <g clip-path="url(#inner)">
+          <g transform="rotate(-22 208 128)">
+            <path d="M174,128 A34,34 0 0 0 242,128 Z" fill="url(#orange)"/>
+            <path d="M174,128 A34,34 0 0 0 242,128" fill="none" stroke="#B85114" stroke-width="3"/>
+            <path d="M179,128 A29,29 0 0 0 237,128" fill="none" stroke="#ffd9a8" stroke-opacity="0.55" stroke-width="1.4"/>
+            <g stroke="#ffe0b3" stroke-opacity="0.5" stroke-width="1.2">
+              <line x1="208" y1="128" x2="208" y2="96"/><line x1="208" y1="128" x2="185" y2="106"/>
+              <line x1="208" y1="128" x2="231" y2="106"/><line x1="208" y1="128" x2="176" y2="124"/>
+              <line x1="208" y1="128" x2="240" y2="124"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- vaso -->
+        <path d="M58,74 L78,232 A82,18 0 0 0 242,232 L262,74" fill="url(#glassG)"/>
+        <path d="M58,74 L78,232 A82,18 0 0 0 242,232 L262,74" fill="none" stroke="#F4ECDE" stroke-opacity="0.45" stroke-width="2"/>
+        <ellipse cx="160" cy="74" rx="102" ry="18" fill="none" stroke="#F4ECDE" stroke-opacity="0.62" stroke-width="2.4"/>
+        <ellipse cx="160" cy="74" rx="102" ry="18" fill="#ffffff" fill-opacity="0.04"/>
+        <ellipse cx="160" cy="232" rx="82" ry="18" fill="none" stroke="#F4ECDE" stroke-opacity="0.3" stroke-width="1.6"/>
+        <g stroke="#F4ECDE" stroke-opacity="0.16" stroke-width="1.2">
+          <line x1="92" y1="205" x2="96" y2="232"/><line x1="120" y1="212" x2="122" y2="240"/>
+          <line x1="160" y1="214" x2="160" y2="242"/><line x1="200" y1="212" x2="198" y2="240"/>
+          <line x1="228" y1="205" x2="224" y2="232"/>
+        </g>
+        <rect x="80" y="92" width="6" height="130" rx="3" fill="#ffffff" opacity="0.12"/>
+        <rect x="92" y="100" width="3" height="115" rx="1.5" fill="#ffffff" opacity="0.08"/>
+      </svg>
+    </div>
+
+    <section class="copy">
+      <h1 class="title"><span class="sos">S.O.S</span><span class="neg" id="bigName">NEGRONI</span></h1>
+    </section>
+
+    <div class="actions">
+      <button class="sos-btn" id="sos"><span class="dot"></span><span id="sosLabel">Lanzar S.O.S Negroni</span></button>
+
+      <div class="row">
+        <button class="mini" id="remind">
+          <svg viewBox="0 0 24 24"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
+          Recordatorio
+        </button>
+        <button class="mini" id="bar">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Bar cerca
+        </button>
+        <button class="mini" id="friend">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          Avisar
+        </button>
+      </div>
+
+      <button class="reg-btn" id="reg">🍊 Acabo de tomar uno</button>
+    </div>
+
+    <div class="foot">Bebé con moderación · Drink responsibly</div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ---------- catálogo de tragos ----------
+  const DRINKS = {
+    negroni:   {name:'Negroni',       glow:['#FF3247','#D9142B'], liquid:['#F2632B','#D11A24','#9E0E1C'], accent:'#D9142B', accentDeep:'#8E0E1C'},
+    margarita: {name:'Margarita',     glow:['#EAF59B','#C9D24A'], liquid:['#F3F7C8','#DDE77E','#B9C24A'], accent:'#A8B23A', accentDeep:'#6E7722'},
+    oldfash:   {name:'Old Fashioned', glow:['#E08A3C','#A85A1C'], liquid:['#D98A3E','#B5631F','#7E3F12'], accent:'#9B5A1F', accentDeep:'#5E3510'},
+    daiquiri:  {name:'Daiquiri',      glow:['#FFF4E0','#E7D9BE'], liquid:['#FBF3E2','#EFE2C8','#D6C3A0'], accent:'#C7A24C', accentDeep:'#8A6E2C'},
+    spritz:    {name:'Aperol Spritz', glow:['#FF8A3C','#EC6A2C'], liquid:['#FFA24E','#F0833A','#D9631C'], accent:'#EC6A2C', accentDeep:'#A8481A'},
+    mojito:    {name:'Mojito',        glow:['#BDEBA0','#7FB85E'], liquid:['#CFEEB0','#A9DE86','#74B055'], accent:'#5B9E45','accentDeep':'#356026', accentDeep:'#356026'},
+    manhattan: {name:'Manhattan',     glow:['#FF3A3A','#9E1A1A'], liquid:['#C42A22','#8E1818','#5E0E0E'], accent:'#8E1818', accentDeep:'#560D0D'},
+    gintonic:  {name:'Gin Tonic',     glow:['#BFE6F5','#7FC4DE'], liquid:['#DDEEF6','#BFE0EF','#96C6DD'], accent:'#4E94B0', accentDeep:'#2C5E73'}
+  };
+  const STATUS = [
+    {d:0,  t:'Recién servido. Salud. 🍊'},
+    {d:1,  t:'En su punto justo.'},
+    {d:4,  t:'Se está calentando el hielo…'},
+    {d:8,  t:'Tu reserva está bajando.'},
+    {d:15, t:'Emergencia aperitivo.'},
+    {d:30, t:'¿Seguís vivo? Hace mucho…'}
+  ];
+
+  // ---------- storage (persistencia real) ----------
+  const KEY='sos-negroni-state';
+  async function load(){
+    try{ if(window.storage){ const r=await window.storage.get(KEY); return r?JSON.parse(r.value):null; } }catch(e){}
+    try{ if(typeof localStorage!=='undefined'){ const v=localStorage.getItem(KEY); return v?JSON.parse(v):null; } }catch(e){}
+    return null;
+  }
+  async function save(st){
+    try{ if(window.storage){ await window.storage.set(KEY, JSON.stringify(st)); return; } }catch(e){}
+    try{ if(typeof localStorage!=='undefined'){ localStorage.setItem(KEY, JSON.stringify(st)); } }catch(e){}
+  }
+
+  // ---------- estado ----------
+  let state = { sel:'negroni', last:{} };
+
+  // ---------- DOM ----------
+  const $=id=>document.getElementById(id);
+  function applyDrink(){
+    const d=DRINKS[state.sel];
+    document.documentElement.style.setProperty('--accent', d.accent);
+    document.documentElement.style.setProperty('--accent-deep', d.accentDeep);
+    $('glow0').setAttribute('stop-color', d.glow[0]);
+    $('glow1').setAttribute('stop-color', d.glow[1]);
+    $('glow2').setAttribute('stop-color', d.glow[1]);
+    $('liq0').setAttribute('stop-color', d.liquid[0]);
+    $('liq1').setAttribute('stop-color', d.liquid[1]);
+    $('liq2').setAttribute('stop-color', d.liquid[2]);
+    $('surface').setAttribute('fill', d.liquid[0]);
+    $('lblName').textContent=d.name;
+    $('bigName').textContent=d.name.toUpperCase();
+    $('sosLabel').textContent='Lanzar S.O.S '+d.name;
+  }
+
+  function pad(n){return String(n).padStart(2,'0')}
+  function statusFor(days){ let s=STATUS[0]; for(const x of STATUS){ if(days>=x.d) s=x; } return s.t; }
+
+  function render(){ tick(); }
+
+  function tick(){
+    const last=state.last[state.sel];
+    if(!last){
+      $('clock').innerHTML='<span style="opacity:.5">aún sin registrar</span>';
+      $('status').textContent='Tocá "Acabo de tomar uno" para empezar.';
+      setFill(0.92);
+      return;
+    }
+    let s=Math.floor((Date.now()-last)/1000);
+    const d=Math.floor(s/86400); s-=d*86400;
+    const h=Math.floor(s/3600); s-=h*3600;
+    const m=Math.floor(s/60); s-=m*60;
+    $('clock').innerHTML=pad(d)+'<span class="u">d</span>'+pad(h)+'<span class="u">h</span>'+pad(m)+'<span class="u">m</span>'+pad(s)+'<span class="u">s</span>';
+    $('status').textContent=statusFor(d);
+    // nivel del vaso: lleno cuando es reciente, baja con los dias (tope 30d)
+    const frac=Math.max(0.10, Math.min(0.92, 0.92 - (d/30)*0.82));
+    setFill(frac);
+  }
+
+  // nivel de liquido: mueve el rect de relleno y la superficie
+  function setFill(frac){
+    const top=232, full=112;            // y de base y de tope-lleno
+    const y=top-(top-full)*frac;
+    $('fillRect').setAttribute('y', y);
+    $('fillRect').setAttribute('height', top-y+4);
+    $('surface').setAttribute('cy', y);
+    $('surface2').setAttribute('cy', y);
+    const w=92*(0.6+0.4*Math.min(1,(top-y)/(top-full)));
+    $('surface').setAttribute('rx', w);
+    $('surface2').setAttribute('rx', w);
+  }
+
+  // ---------- toast ----------
+  const toast=$('toast'); let tt;
+  function showToast(txt){ toast.textContent=txt; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>toast.classList.remove('on'),2800); }
+
+  // ---------- acciones ----------
+  function diasDesde(){ const l=state.last[state.sel]; if(!l) return null; return Math.floor((Date.now()-l)/86400000); }
+
+  // S.O.S — bengala compartible (opcion 1, cero backend)
+  $('sos').addEventListener('click', ()=>{
+    const n=DRINKS[state.sel].name, d=diasDesde();
+    const desde = d===null ? 'demasiado' : (d>0?`hace ${d} día${d>1?'s':''}`:'hoy mismo');
+    const msg=`🔴 S.O.S ${n.toUpperCase()} 🔴\n\n¿Cuándo fue tu último ${n}? El mío fue ${desde} y la sed aprieta.\nBusco con quién tomar uno. ¿Te sumás? 🍸\n\n— enviado con S.O.S Negroni · ABB Bartenders`;
+    if(navigator.share){ navigator.share({title:'S.O.S '+n.toUpperCase(), text:msg}).catch(()=>{}); }
+    else{ window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank'); }
+    showToast('🚨 Bengala lanzada');
+  });
+
+  // Avisar a un amigo directo (WhatsApp)
+  $('friend').addEventListener('click', ()=>{
+    const n=DRINKS[state.sel].name;
+    const msg=`Che, ¿te tomás un ${n} conmigo? 🍸 Hace rato que no me siento a uno como la gente.`;
+    window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  });
+
+  // Buscar bar de cocteleria cerca (geolocalizacion -> Google Maps)
+  $('bar').addEventListener('click', ()=>{
+    showToast('📍 Buscando coctelerías cerca…');
+    const open=(url)=>window.open(url,'_blank');
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(
+        p=>open(`https://www.google.com/maps/search/bar+de+cocteler%C3%ADa/@${p.coords.latitude},${p.coords.longitude},15z`),
+        ()=>open('https://www.google.com/maps/search/bar+de+cocteler%C3%ADa+cerca/'),
+        {timeout:6000}
+      );
+    } else { open('https://www.google.com/maps/search/bar+de+cocteler%C3%ADa+cerca/'); }
+  });
+
+  // Recordatorio (Google Calendar, proximo aperitivo en 7 dias a las 19:00)
+  $('remind').addEventListener('click', ()=>{
+    const n=DRINKS[state.sel].name;
+    const d=new Date(); d.setDate(d.getDate()+7); d.setHours(19,0,0,0);
+    const end=new Date(d.getTime()+60*60*1000);
+    const fmt=x=>x.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+    const url='https://calendar.google.com/calendar/render?action=TEMPLATE'
+      +'&text='+encodeURIComponent(`🍸 Hora del ${n}`)
+      +'&dates='+fmt(d)+'/'+fmt(end)
+      +'&details='+encodeURIComponent('La sed avisa. Es momento de un buen '+n+'. — S.O.S Negroni · ABB Bartenders');
+    window.open(url,'_blank');
+    showToast('🗓️ Recordatorio en 7 días, 19:00');
+  });
+
+  // Registrar trago (reinicia el reloj y guarda)
+  $('reg').addEventListener('click', ()=>{
+    state.last[state.sel]=Date.now(); save(state); tick();
+    showToast(`🍊 ¡Salud! ${DRINKS[state.sel].name} registrado`);
+  });
+
+  // ---------- init ----------
+  (async()=>{
+    const saved=await load();
+    if(saved && saved.last){ state=saved; } state.sel='negroni';
+    applyDrink(); render();
+    setInterval(tick,1000);
+  })();
+</script>
+</body>
+</html>

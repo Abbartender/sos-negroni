@@ -347,17 +347,19 @@
     window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
   });
 
-  // Buscar bar de cocteleria cerca (geolocalizacion -> Google Maps)
+  // Buscar bar de cocteleria cerca
   $('bar').addEventListener('click', ()=>{
+    // Abrimos Maps YA, dentro del click (si lo hacemos después, el navegador lo bloquea).
+    // Google Maps geolocaliza solo con "cerca de mí", sin depender del permiso.
+    const w = window.open('https://www.google.com/maps/search/cocteler%C3%ADa+bar+cerca+de+m%C3%AD/', '_blank');
     showToast('📍 Buscando coctelerías cerca…');
-    const open=(url)=>window.open(url,'_blank');
-    if(navigator.geolocation){
+    // Si además conseguimos coordenadas exactas, afinamos el mapa.
+    if(navigator.geolocation && w){
       navigator.geolocation.getCurrentPosition(
-        p=>open(`https://www.google.com/maps/search/bar+de+cocteler%C3%ADa/@${p.coords.latitude},${p.coords.longitude},15z`),
-        ()=>open('https://www.google.com/maps/search/bar+de+cocteler%C3%ADa+cerca/'),
-        {timeout:6000}
+        p=>{ try{ w.location = `https://www.google.com/maps/search/bar+de+cocteler%C3%ADa/@${p.coords.latitude},${p.coords.longitude},15z`; }catch(e){} },
+        ()=>{}, {timeout:6000, enableHighAccuracy:true}
       );
-    } else { open('https://www.google.com/maps/search/bar+de+cocteler%C3%ADa+cerca/'); }
+    }
   });
 
   // Recordatorio (Google Calendar, proximo aperitivo en 7 dias a las 19:00)
